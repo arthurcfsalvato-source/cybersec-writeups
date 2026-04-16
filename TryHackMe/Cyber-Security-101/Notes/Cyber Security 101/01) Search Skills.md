@@ -1,25 +1,66 @@
- 
-# Modulo 1
- 
- Para procurar  a fonte da informaçao  e tomar cuidado com [^1]Snake Oil 
- com isso o primeiro modulo fala sobre um paço inicial que é importante avaliar bem as ferramentas criptográficas exatamente pelos critérios mencionados no texto (fonte, evidências, objetividade...).
- 
- outra coisa que ele fala é sobre o comando ==ss== no Linux  que é o comando moderno que substitui o `netstat` em sistemas Linux. Faz parte do pacote `iproute2` e serve para exibir informações sobre conexões de rede, sockets, portas abertas, etc. É mais rápido e completo que o `netstat`, que pertencia ao pacote `net-tools`, hoje considerado obsoleto na maioria das distribuições.
- O comando `ss` (**S**ocket **S**tatistics) serve para **monitorar conexões de rede** num sistema Linux. É basicamente uma ferramenta de diagnóstico de rede.
+---
+tags:
+  - tryhackme
+  - pre-security
+  - osint
+  - linux
+  - cybersecurity
+aliases:
+  - Search Skills
+  - THM Search Skills
+date: 2026-04-16
+path: Pre Security Path
+status: completo
+---
+
+# THM — Pre Security Path — Search Skills
+
+> [!info] Visão Geral do Módulo
+> Este módulo foca em **encontrar informação de forma eficaz** — desde avaliar a qualidade das fontes até usar ferramentas especializadas de OSINT. O objetivo é desenvolver sentido crítico antes de confiar em qualquer ferramenta ou recurso de segurança.
+
+---
+
+## 📋 Módulos abordados
+
+- Módulo 1 — Avaliação de Fontes & Comando `ss`
+- Módulo 2 — Pesquisa Avançada no Google
+- Módulo 3 — Ferramentas OSINT Especializadas
+- Módulo 4 — CVE & Exploit Database
+- Módulo 5 — Documentação Técnica (Linux & Windows)
+- Módulo 6 — Redes Sociais como Fonte de Informação
+
+---
+
+## Módulo 1 — Avaliação de Fontes & Ferramentas Criptográficas
+
+O primeiro passo antes de usar qualquer ferramenta de segurança é **avaliar bem a sua fonte**. É aqui que entra o conceito de ==Snake Oil==.
+
+> [!warning] Snake Oil[^1]
+> Termo usado na criptografia para descrever produtos que se apresentam como seguros mas que na prática são fracos, mal implementados ou deliberadamente enganosos. Analogia com os charlatões do século XIX que vendiam "óleo de cobra" como remédio milagroso.
+
+Para não cair em snake oil, avaliar sempre pelos critérios:
+- **Fonte** — quem escreveu? tem credibilidade?
+- **Evidências** — há testes independentes? auditorias públicas?
+- **Objetividade** — a comunicação é honesta ou exagerada?
+- **Transparência** — o algoritmo é aberto para revisão por pares?
+
+---
+
+### Comando `ss` (Socket Statistics)
+
+O ==ss== é o comando moderno que **substitui o `netstat`** em sistemas Linux. Faz parte do pacote `iproute2` e é mais rápido e completo que o `netstat` (pacote `net-tools`, hoje considerado obsoleto).
 
 **O que ele mostra:**
 
 - Conexões TCP/UDP ativas
 - Portas abertas e em escuta (listening)
 - Endereços IP locais e remotos conectados
-- Estado das conexões (ESTABLISHED, LISTEN, TIME-WAIT, etc.)
+- Estado das conexões (`ESTABLISHED`, `LISTEN`, `TIME-WAIT`, etc.)
 
 **Exemplos de uso comuns:**
 
-bash
-
 ```bash
-ss -tuln      # mostra portas TCP/UDP abertas
+ss -tuln      # mostra portas TCP/UDP abertas (sem resolver nomes)
 ss -ta        # todas as conexões TCP
 ss -s         # resumo estatístico das conexões
 ss -p         # mostra qual processo está usando cada conexão
@@ -32,89 +73,242 @@ ss -p         # mostra qual processo está usando cada conexão
 - Diagnosticar problemas de rede
 - Ver quais programas estão a usar a rede
 
-# Modulo 2
+---
 
-agora ele ta me ensinado a pesquisar no google  com comandos para por exemplo se eu pesquisar "Hacker"  ira achar sites que tenham a palavra hacker agora se eu pesquisar site:tryhackme.com falha ele ira pesquisar tudo sobre a falha no tryhackme  agr filetype:ppt cyber security ele ira pesquisar powerpoit de cyber security e esse link [lista de operadores de pesquisa avançada.](https://github.com/cipher387/Advanced-search-operators-list) ele tem todos os comandos  para pesquisa 
+## Módulo 2 — Pesquisa Avançada no Google
 
+Usar operadores de pesquisa permite filtrar resultados de forma muito mais precisa — habilidade essencial para **reconhecimento passivo (OSINT)**.
 
-[^1]: **Snake Oil** — é o termo usado na criptografia para descrever métodos, algoritmos ou produtos que se apresentam como seguros mas que na prática são fracos, mal implementados ou deliberadamente enganosos. A analogia vem dos charlatões do século XIX que vendiam "óleo de cobra" como remédio milagroso. 
+| Operador | Exemplo | O que faz |
+|---|---|---|
+| `"termo"` | `"hacker ético"` | Pesquisa a frase exata |
+| `site:` | `site:tryhackme.com falha` | Pesquisa apenas naquele domínio |
+| `filetype:` | `filetype:ppt cyber security` | Filtra por tipo de ficheiro |
+| `-` | `segurança -windows` | Exclui o termo dos resultados |
+| `OR` | `hacker OR pentester` | Mostra resultados com um ou outro |
 
+> [!tip] Recurso útil
+> [Lista completa de operadores de pesquisa avançada](https://github.com/cipher387/Advanced-search-operators-list) — tem todos os operadores para Google, Bing, GitHub, Shodan, etc.
 
-# Modulo 3
+---
 
-agora ta me dando ferramentas de pesquisas mais fortes  e para coisas especificas como o  [Shodan.](https://www.shodan.io/) que é um mecanismo de busca para dispositivos conectados à Internet. Ele permite pesquisar tipos e versões específicos de servidores, equipamentos de rede, sistemas de controle industrial eIoTdispositivos. Talvez você queira verificar quantos servidores ainda estão em execução.Apache2.4.1 e a distribuição entre países. Para encontrar a resposta, podemos pesquisar por `apache 2.4.1`, que retornará a lista de servidores com a string “apache2.4.1” em seus cabeçalhos.
+## Módulo 3 — Ferramentas OSINT Especializadas
 
-Considere visitar [os exemplos de consultas de pesquisa do Shodan.(abre em nova aba)](https://www.shodan.io/search/examples)Para mais exemplos, consulte as tendências do Shodan. Além disso, você pode verificar [as tendências do Shodan.(abre em nova aba)](https://trends.shodan.io/)Para obter informações históricas, caso tenha uma assinatura.
+Ferramentas mais poderosas que os motores de busca convencionais, cada uma com um foco específico.
 
+---
 
-À primeira vista, [Censys(abre em nova aba)](https://search.censys.io/)Parece semelhante ao Shodan. No entanto, o Shodan concentra-se em dispositivos e sistemas conectados à Internet, como servidores, roteadores, webcams eIoTO Censys, por outro lado, concentra-se em hosts conectados à Internet, sites, certificados e outros ativos da Internet. Alguns de seus casos de uso incluem a enumeração de domínios em uso, a auditoria de portas e serviços abertos e a descoberta de ativos não autorizados em uma rede. Você pode consultar [os Casos de Uso Introdutórios do Censys .(abre em nova aba)](https://docs.censys.com/docs/ls-introductory-use-cases#/).
+### 🔍 Shodan
 
-[VirusTotal(abre em nova aba)](https://www.virustotal.com/)É um site online que oferece um serviço de verificação de vírus para arquivos usando vários mecanismos antivírus. Ele permite que os usuários carreguem arquivos ou forneçam URLs para serem verificados por diversos mecanismos antivírus e verificadores de sites em uma única operação. Eles podem até inserir hashes de arquivos para verificar os resultados de arquivos carregados anteriormente.
+[Shodan](https://www.shodan.io/) é um motor de busca para **dispositivos conectados à Internet**. Ao contrário do Google, que indexa páginas web, o Shodan indexa **banners de serviços e metadados de dispositivos** expostos — servidores, routers, webcams, sistemas industriais (ICS/SCADA) e dispositivos IoT.
 
-A captura de tela abaixo mostra o resultado da verificação do arquivo enviado em 67 mecanismos antivírus. Além disso, você pode consultar os comentários da comunidade para obter mais informações. Ocasionalmente, um arquivo pode ser sinalizado como vírus ou Trojan; no entanto, isso pode não ser preciso por vários motivos, e é aí que os membros da comunidade podem fornecer uma explicação mais detalhada.
+**Exemplo de uso:**
 
-[Fui enganado(abre em nova aba)](https://haveibeenpwned.com/)O HIBP (Hierarchical Information Protection) faz uma coisa: informa se um endereço de e-mail apareceu em um vazamento de dados. Encontrar o e-mail de alguém em dados vazados indica que informações privadas foram expostas e, mais importante, que senhas também foram. Muitos usuários usam a mesma senha em várias plataformas; se uma plataforma for invadida, a senha em outras plataformas também ficará exposta. De fato, as senhas geralmente são armazenadas em formato criptografado; no entanto, muitas senhas não são tão complexas e podem ser recuperadas usando diversos tipos de ataques.
+```
+apache 2.4.1
+```
 
-# Modulo 4
+Retorna todos os servidores que ainda correm essa versão, com distribuição por país.
 
-agora ele me ensinou achar [^2]cve  para ver vunerabilidades que ja foram encontradas 
-## CVE
+> [!tip] Links úteis
+> - [Exemplos de consultas Shodan](https://www.shodan.io/search/examples)
+> - [Shodan Trends](https://trends.shodan.io/) — dados históricos (requer subscrição)
 
-Podemos pensar nas Vulnerabilidades e Exposições Comuns (CVE) programa como um dicionário de vulnerabilidades. Ele fornece um identificador padronizado para vulnerabilidades e problemas de segurança em produtos de software e hardware. Cada vulnerabilidade recebe um número.CVEID com um formato padronizado como `CVE-2024-29988`. Este identificador único (CVEO ID garante que todos, desde pesquisadores de segurança a fornecedores e profissionais de TI, estejam se referindo à mesma vulnerabilidade.[CVE-2024-29988(abre em nova aba)](https://nvd.nist.gov/vuln/detail/CVE-2024-29988)nesse caso.
+---
 
-OMITRAA empresa mantém oCVEsistema. Para obter mais informações e pesquisar CVEs existentes, visite o[CVEPrograma(abre em nova aba)](https://www.cve.org/)Como alternativa, visite o site [do Banco de Dados Nacional de Vulnerabilidades .(abre em nova aba)](https://nvd.nist.gov/)Site da NVD (National Vigilância Não Destrutiva). A captura de tela abaixo mostraCVE-2014-0160, também conhecido como Heartbleed.
+### 🔍 Censys
 
+[Censys](https://search.censys.io/) parece semelhante ao Shodan, mas o foco é diferente:
 
-## Banco de dados de exploração
+| | Shodan | Censys |
+|---|---|---|
+| **Foco** | Dispositivos e sistemas (IoT, routers, webcams) | Hosts, websites, certificados TLS/SSL |
+| **Uso típico** | Detetar dispositivos expostos | Auditar portas, enumerar domínios, descobrir ativos não autorizados |
 
-É um recurso disponível é o [Banco de Dados de Exploração (Exploit Database).(abre em nova aba)](https://www.exploit-db.com/)O banco de dados de exploits lista códigos de exploração de diversos autores; alguns desses códigos foram testados e marcados como verificados.
+> [!tip] Documentação
+> [Casos de Uso Introdutórios do Censys](https://docs.censys.com/docs/ls-introductory-use-cases#/)
 
+---
 
-# Modulo 5
-## LinuxPáginas do manual
+### 🦠 VirusTotal
 
-Muito antes da internet estar em todos os lugares, como você obteria ajuda usando um comando em umLinuxou um sistema do tipo Unix? A resposta seria consultar a página do manual, ou man page, para abreviar.LinuxEm todo sistema do tipo Unix, espera-se que cada comando tenha uma página de manual (man page). Aliás, também existem páginas de manual para chamadas de sistema, funções de biblioteca e até mesmo arquivos de configuração.
+[VirusTotal](https://www.virustotal.com/) verifica **ficheiros, URLs e hashes** através de múltiplos motores antivírus em simultâneo (67+). 
 
-Digamos que queremos consultar a página do manual do comando `ip`. Executamos o comando `man ip`. A captura de tela abaixo mostra a página que recebemos. Você pode tentar fazer isso em uma máquina Linux que tenha disponível.
+**O que aceita:**
+- Upload de ficheiros
+- URLs para verificar
+- Hashes de ficheiros (para verificar resultados de uploads anteriores)
 
-![A página do manual do comando ip](https://tryhackme-images.s3.amazonaws.com/user-uploads/5f04259cf9bf5b57aed2c476/room-content/5f04259cf9bf5b57aed2c476-1718112797192)
+> [!note] Falsos Positivos
+> Um ficheiro legítimo pode ser sinalizado incorretamente. Os **comentários da comunidade** são úteis para esclarecer esses casos.
 
-Se preferir ler a página do manual `ip`no seu navegador, basta digitar `man ip`no seu mecanismo de busca favorito. Esta [página(abre em nova aba)](https://linux.die.net/man/8/ip)pode estar no topo dos resultados.
+---
 
-## Microsoft Windows
+### 🔓 Have I Been Pwned (HIBP)
 
-A Microsoft fornece [documentação técnica oficial.(abre em nova aba)](https://learn.microsoft.com/)página para seus produtos. A captura de tela abaixo mostra os resultados da pesquisa para o comando `ipconfig`.
+[Have I Been Pwned](https://haveibeenpwned.com/) faz uma coisa: **verifica se um e-mail apareceu num vazamento de dados**.
 
-![Os resultados da pesquisa por ipconfig no site de documentação técnica da Microsoft.](https://tryhackme-images.s3.amazonaws.com/user-uploads/5f04259cf9bf5b57aed2c476/room-content/5f04259cf9bf5b57aed2c476-1718112815041)
+- Se o e-mail estiver comprometido → as credenciais associadas foram expostas
+- Risco agravado por **reutilização de passwords** em múltiplas plataformas
+- As passwords costumam estar em formato criptografado, mas muitas são fracas e recuperáveis via ataques de dicionário
 
-## Documentação do produto
-É sempre vantajoso consultar a documentação oficial, pois ela é a mais atualizada e oferece as informações mais completas sobre o produto.
+---
 
+## Módulo 4 — CVE & Bases de Dados de Vulnerabilidades
 
-# Modulo 6
+### CVE — Common Vulnerabilities and Exposures[^2]
 
-![Hacker com um laptop](https://tryhackme-images.s3.amazonaws.com/user-uploads/5f04259cf9bf5b57aed2c476/room-content/5f04259cf9bf5b57aed2c476-1720443820951.svg)
+O programa CVE funciona como um **dicionário padronizado de vulnerabilidades**. Cada vulnerabilidade recebe um identificador único no formato:
 
-Existem bilhões de usuários cadastrados em plataformas de mídia social como [o Facebook.(abre em nova aba)](https://www.facebook.com/people/Tryhackme/100069557747714/)Twitter[​(abre em nova aba)](https://twitter.com/RealTryHackMe)e [LinkedIn(abre em nova aba)](https://www.linkedin.com/company/tryhackme/)Esperamos que você esteja familiarizado com as plataformas mais populares. No entanto, se você conhece alguma plataforma que não conhece, recomendamos que a explore e aprenda sobre ela. O ideal seria explorar uma plataforma sem criar uma conta; porém, isso limita bastante a sua experiência. Uma recomendação é usar um endereço de e-mail temporário para descobrir essas plataformas sem vinculá-las aos seus endereços de e-mail reais; depois disso, você pode encerrar as contas e os endereços de e-mail associados. Um dos motivos para não usar sua conta principal é evitar que seus contatos comecem a se conectar com você por lá enquanto você estiver apenas explorando a plataforma temporariamente.
+```
+CVE-[ANO]-[NÚMERO]
+```
 
-O poder das redes sociais reside na possibilidade de conectar-se com empresas e pessoas de seu interesse. Além disso, as redes sociais oferecem uma vasta gama de informações para profissionais de segurança cibernética, seja para buscar pessoas ou informações técnicas. Por que buscar pessoas é importante, você pergunta?
+**Exemplo:** `CVE-2024-29988`
 
-Ao proteger uma empresa, você deve garantir que as pessoas que você protege não compartilhem informações pessoais em excesso nas redes sociais. Por exemplo, as redes sociais delas podem revelar a resposta para perguntas confidenciais, como "Em qual escola você estudou quando criança?". Essas informações podem permitir que invasores redefinam suas senhas e assumam o controle de suas contas com facilidade.
+Esse ID garante que investigadores, fornecedores e profissionais de TI estejam todos a falar da mesma vulnerabilidade.
 
-Além disso, como profissional de segurança cibernética, você deseja se manter atualizado sobre as novas tendências, tecnologias e produtos de segurança cibernética. Seguir os canais e grupos adequados pode proporcionar um ambiente propício para o desenvolvimento de sua expertise técnica.
+**Fontes oficiais de consulta:**
 
-Além de se manter atualizado por meio de redes sociais e grupos, devemos mencionar os veículos de notícias. Centenas de sites de notícias oferecem informações valiosas sobre segurança cibernética. Experimente diferentes opções e fique com aqueles que você mais gostar.
+| Recurso | URL | O que oferece |
+|---|---|---|
+| CVE Program | [cve.org](https://www.cve.org/) | Base oficial de CVEs |
+| NVD (NIST) | [nvd.nist.gov](https://nvd.nist.gov/) | Inclui pontuação CVSS e detalhes técnicos |
 
-Responda às perguntas abaixo.
+> [!example] Exemplo histórico
+> `CVE-2014-0160` — também conhecido como **Heartbleed**, uma das vulnerabilidades mais críticas já descobertas, afetando a biblioteca OpenSSL.
 
-Você foi contratado para avaliar a segurança de uma determinada empresa. Qual rede social popular você usaria para obter informações sobre o conhecimento técnico de um dos funcionários dessa empresa?
+---
 
-LinkedIn
+### Exploit Database
 
-Continuando com o cenário anterior, você está tentando encontrar a resposta para a pergunta secreta: "Em qual escola você estudou quando criança?". Qual rede social você consideraria consultar para encontrar a resposta para perguntas secretas como essa?
+O [Exploit Database](https://www.exploit-db.com/) lista **códigos de exploração** para vulnerabilidades conhecidas. Alguns exploits estão marcados como **verificados** — foram testados e confirmados.
 
-Facebook
+Útil para:
+- Pesquisa durante pentests
+- Compreender como uma vulnerabilidade é explorada na prática
+- Usar com `searchsploit` localmente via linha de comandos
 
+---
 
+## Módulo 5 — Documentação Técnica
 
-[^2]: Vulnerabilidades e Exposições Comuns (CVE, na sigla em inglês) é um termo usado para se referir a uma vulnerabilidade divulgada publicamente. 
+### Linux — Páginas de Manual (man pages)
+
+Muito antes da internet, a forma de obter ajuda num sistema Linux/Unix era consultar a **man page** do comando. Hoje continua a ser a referência mais completa e fiável.
+
+```bash
+man ip        # manual do comando ip
+man ss        # manual do comando ss
+man 8 ip      # secção 8 (comandos de administração)
+```
+
+As man pages estão organizadas em secções:
+
+| Secção | Conteúdo |
+|---|---|
+| 1 | Comandos do utilizador |
+| 2 | Chamadas ao sistema |
+| 3 | Funções de biblioteca C |
+| 5 | Formatos de ficheiros |
+| 8 | Comandos de administração |
+
+> [!tip] Online
+> Pesquisar `man ip` no browser também funciona — [linux.die.net](https://linux.die.net/man/8/ip) costuma estar no topo dos resultados.
+
+---
+
+### Windows — Documentação Microsoft
+
+A Microsoft centraliza toda a documentação técnica oficial em [learn.microsoft.com](https://learn.microsoft.com/) — referência para comandos, PowerShell, APIs e administração de sistemas Windows.
+
+---
+
+### Princípio Geral
+
+> [!important]
+> Consultar **sempre a documentação oficial** como primeira fonte. É a mais atualizada, completa e fiável — independentemente da plataforma.
+
+---
+
+## Módulo 6 — Redes Sociais & OSINT Humano
+
+As redes sociais são uma fonte rica de informação para profissionais de cibersegurança — tanto para proteger organizações como para recolher informação em reconhecimento passivo.
+
+### Aplicações em Cibersegurança
+
+- Avaliar o excesso de partilha de informação por colaboradores
+- Descobrir respostas a **perguntas de segurança** (ex.: escola de infância, cidade natal)
+- Mapear a estrutura de uma organização
+- Manter-se atualizado sobre tendências e ameaças
+
+### Plataformas e Casos de Uso
+
+| Plataforma | Uso em OSINT |
+|---|---|
+| **LinkedIn** | Competências técnicas, cargos, percurso profissional — identificar targets |
+| **Facebook** | Informação pessoal: escola, localização, família — útil para engenharia social |
+| **Twitter / X** | Declarações públicas, posicionamentos técnicos, informação partilhada |
+| **GitHub** | Repositórios públicos com credenciais, tokens de API ou código sensível expostos |
+
+> [!example] Exercício do módulo
+> - **"Qual rede social usarias para saber o conhecimento técnico de um funcionário?"** → **LinkedIn**
+> - **"Qual rede para descobrir a escola de infância de alguém?"** → **Facebook**
+
+### Boas Práticas de Investigação
+
+- Explorar plataformas desconhecidas com um **e-mail temporário**
+- Encerrar contas criadas apenas para investigação após concluir
+- Nunca usar contas pessoais para investigar alvos
+- Seguir canais e grupos especializados para atualização técnica contínua
+
+---
+
+## ⚡ Conceitos-Chave para Memorizar
+
+> [!summary] Revisão Rápida
+> - **Snake Oil** = produto criptográfico que parece seguro mas não é — sempre verificar fonte e evidências
+> - **`ss`** substitui `netstat` — Socket Statistics, parte do `iproute2`
+> - **`site:`, `filetype:`, `""`** — operadores essenciais de pesquisa avançada
+> - **Shodan** = dispositivos IoT/servidores expostos | **Censys** = hosts, certificados, domínios
+> - **VirusTotal** = verificar ficheiros/URLs com 67+ antivírus
+> - **HIBP** = verificar se um e-mail foi exposto em vazamentos
+> - **CVE** = identificador padronizado para vulnerabilidades (`CVE-ANO-NÚMERO`)
+> - **NVD** = base do NIST com pontuação CVSS por CVE
+> - **Exploit DB** = códigos de exploração para vulnerabilidades conhecidas
+> - **man pages** = documentação oficial de comandos Linux
+> - **LinkedIn** = info técnica/profissional | **Facebook** = info pessoal
+
+---
+
+## 🔗 Próximos Passos
+
+### Sequencial
+
+- **→** [[Network Fundamentals — Pre Security Path]]
+- **→** How The Web Works (HTTP, HTTPS, DNS, Cookies)
+- **→** Linux Fundamentals (CLI, permissões, bash)
+- **→** Windows Fundamentals (Active Directory, PowerShell)
+
+### Tópicos Relacionados
+
+- **Reconhecimento passivo aprofundado:** [[OSINT — Técnicas Avançadas]]
+- **CVE e exploits na prática:** [[Vulnerability Assessment]]
+- **Engenharia Social:** [[Social Engineering — Técnicas]]
+
+### Ferramentas Mencionadas
+
+- [Shodan](https://www.shodan.io/)
+- [Censys](https://search.censys.io/)
+- [VirusTotal](https://www.virustotal.com/)
+- [Have I Been Pwned](https://haveibeenpwned.com/)
+- [CVE Program](https://www.cve.org/)
+- [NVD — NIST](https://nvd.nist.gov/)
+- [Exploit Database](https://www.exploit-db.com/)
+- [Operadores de Pesquisa Avançada](https://github.com/cipher387/Advanced-search-operators-list)
+
+---
+
+[^1]: **Snake Oil** — é o termo usado na criptografia para descrever métodos, algoritmos ou produtos que se apresentam como seguros mas que na prática são fracos, mal implementados ou deliberadamente enganosos. A analogia vem dos charlatões do século XIX que vendiam "óleo de cobra" como remédio milagroso.
+
+[^2]: **CVE (Common Vulnerabilities and Exposures)** — sistema padronizado de identificação de vulnerabilidades divulgadas publicamente. Mantido pela MITRE Corporation.
